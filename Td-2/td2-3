@@ -1,0 +1,31 @@
+import random
+import string
+from collections import Counter
+
+def generer_mdp(longueur=10):
+    lettres = string.ascii_letters
+    chiffres = string.digits
+    # au moins 2 chiffres
+    mdp = [random.choice(chiffres) for _ in range(2)]
+    mdp += [random.choice(lettres + chiffres) for _ in range(longueur - 2)]
+    random.shuffle(mdp)
+    return ''.join(mdp)
+
+# Générer 1000 mots de passe
+mots_de_passe = [generer_mdp() for _ in range(1000)]
+
+# 1. Fréquence des caractères
+tous_caracteres = ''.join(mots_de_passe)
+frequences = Counter(tous_caracteres)
+
+# 2. Longueur moyenne
+longueurs = [len(mdp) for mdp in mots_de_passe]
+longueur_moyenne = sum(longueurs) / len(longueurs)
+
+# 3. Diversité des combinaisons
+diversite = len(set(mots_de_passe))
+
+# Affichage des résultats
+print("Fréquence des caractères les plus courants :", frequences.most_common(10))
+print("Longueur moyenne des mots de passe :", longueur_moyenne)
+print("Diversité (nombre de mots de passe uniques) :", diversite)
